@@ -166,7 +166,7 @@ void signal_handler_init(void)
 // Nobody should be reading these before initializePaths() is called
 std::string path_share = "UNINITIALIZED";
 std::string path_user = "UNINITIALIZED";
-std::string path_locale = "UNINITIALIZED";
+std::string path_locale = "UNINIT IALIZED";
 std::string path_cache = "UNINITIALIZED";
 
 
