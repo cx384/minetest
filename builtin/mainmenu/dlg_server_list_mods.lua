@@ -22,7 +22,7 @@ local function get_formspec(dialogdata)
 		for i, mod in ipairs(server.mods) do
 			local prefix = mod:match("([^_]*_)")
 			if prefix and last_prefix == prefix then
-				mods[#mods] = "#BBBBBB".. core.formspec_escape(prefix) .. "*"
+				mods[#mods] = "#BBBBBB> ".. core.formspec_escape(prefix) .. "*"
 			else
 				table.insert(mods, core.formspec_escape(mod))
 				last_prefix = prefix
@@ -52,7 +52,7 @@ local function get_formspec(dialogdata)
 				"<style font=mono>" .. (server.gameid or "") .. "</style>") .. "]",
 		"textlist[0.5,1.5;5,6.8;mods;" .. mods .. "]",
 		"button[0.5,8.5;3,0.8;prefix;" .. prefix_button_label .. "]",
-		"button[3.5,8.5;2,0.8;quit;Back]"
+		"button[3.5,8.5;2,0.8;quit;OK]"
 	}
 	return table.concat(formspec, "")
 end
@@ -66,7 +66,7 @@ local function buttonhandler(this, fields)
 	if fields.mods then
 		local exploded = core.explode_textlist_event(fields.mods)
 		if exploded.type == "DCL" then
-			local match = this.data.mods[exploded.index]:match("#BBBBBB([^_]*_)%*")
+			local match = this.data.mods[exploded.index]:match("#BBBBBB> ([^_]*_)%*")
 			if match then
 				this.data.filter_prefix = match
 				return true
