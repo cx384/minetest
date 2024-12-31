@@ -208,6 +208,9 @@ local function get_formspec(tabview, name, tabdata)
 			retval = retval .. "style[btn_server_url;padding=6]"
 			retval = retval .. "image_button[3.5,1.3;0.5,0.5;" ..
 				core.formspec_escape(defaulttexturedir .. "server_url.png") .. ";btn_server_url;]"
+		else
+			retval = retval .. "image[3.6,1.4;0.3,0.3;" .. core.formspec_escape(defaulttexturedir ..
+				"server_url_unavailable.png") .. "]"
 		end
 
 		-- Favorites toggle button
