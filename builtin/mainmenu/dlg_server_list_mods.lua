@@ -36,22 +36,28 @@ local function get_formspec(dialogdata)
 
 	local prefix_button_label
 	if not filter_prefix then
-		prefix_button_label = "Expand all prefixes"
+		prefix_button_label = fgettext("Expand all prefixes")
 	elseif filter_prefix == true then
-		prefix_button_label = "Group by prefix"
+		prefix_button_label = fgettext("Group by prefix")
 	else
-		prefix_button_label = "Show all mods"
+		prefix_button_label = fgettext("Show all mods")
+	end
+
+	local heading
+	if server.gameid then
+		heading = fgettext("The $1 server uses a game called $2 and the following mods:",
+			"<b>" .. core.hypertext_escape(server.name) .. "</b>",
+			"<style font=mono>" .. core.hypertext_escape(server.gameid) .. "</style>")
+	else
+		heading = fgettext("The $1 server uses the following mods:",
+				"<b>" .. core.hypertext_escape(server.name) .. "</b>")
 	end
 
 	local formspec = {
 		"formspec_version[8]",
 		"size[6,9.5]",
 		TOUCH_GUI and "padding[0.01,0.01]" or "",
-		"hypertext[0,0;6,1.5;;<global margin=5 halign=center valign=middle>",
-			fgettext("The $1 server uses " .. (server.gameid and "a game called $2 and " or "") ..
-					"the following mods:",
-				"<b>" .. core.hypertext_escape(server.name) .. "</b>",
-				"<style font=mono>" .. (server.gameid or "") .. "</style>") .. "]",
+		"hypertext[0,0;6,1.5;;<global margin=5 halign=center valign=middle>".. heading .. "]",
 		"textlist[0.5,1.5;5,6.8;mods;" .. mods .. "]",
 		"button[0.5,8.5;3,0.8;prefix;" .. prefix_button_label .. "]",
 		"button[3.5,8.5;2,0.8;quit;OK]"
