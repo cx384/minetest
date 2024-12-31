@@ -11,18 +11,20 @@ local function get_formspec(dialogdata)
 	local mods = {}
 	table.sort(server.mods)
 
-	if filter_prefix then
+	if filter_prefix == true then -- All prefixes
+		mods = server.mods
+	elseif filter_prefix then
 		for _, mod in ipairs(server.mods) do
-			if mod:sub(0, #filter_prefix) == filter_prefix then
+			if mod == filter_prefix or mod:sub(0, #filter_prefix + 1) == filter_prefix .."_" then
 				table.insert(mods, core.formspec_escape(mod))
 			end
 		end
 	else
 		local last_prefix
 		for i, mod in ipairs(server.mods) do
-			local prefix = mod:match("([^_]*_)")
+			local prefix = mod:match("([^_]*)_") or mod
 			if prefix and last_prefix == prefix then
-				mods[#mods] = "#BBBBBB▶ ".. core.formspec_escape(prefix) .. "*"
+				mods[#mods] = "#BBBBBB▶ ".. core.formspec_escape(prefix)
 			else
 				table.insert(mods, core.formspec_escape(mod))
 				last_prefix = prefix
@@ -35,7 +37,7 @@ local function get_formspec(dialogdata)
 	local prefix_button_label
 	if not filter_prefix then
 		prefix_button_label = "Expand all prefixes"
-	elseif filter_prefix == "" then
+	elseif filter_prefix == true then
 		prefix_button_label = "Group by prefix"
 	else
 		prefix_button_label = "Show all mods"
@@ -66,7 +68,7 @@ local function buttonhandler(this, fields)
 	if fields.mods then
 		local exploded = core.explode_textlist_event(fields.mods)
 		if exploded.type == "DCL" then
-			local match = this.data.mods[exploded.index]:match("#BBBBBB▶ ([^_]*_)%*")
+			local match = this.data.mods[exploded.index]:match("#BBBBBB▶ ([^_]*)")
 			if match then
 				this.data.filter_prefix = match
 				return true
@@ -78,7 +80,7 @@ local function buttonhandler(this, fields)
 		if this.data.filter_prefix then
 			this.data.filter_prefix = nil
 		else
-			this.data.filter_prefix = ""
+			this.data.filter_prefix = true
 		end
 		return true
 	end
