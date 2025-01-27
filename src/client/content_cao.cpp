@@ -767,9 +767,6 @@ void GenericCAO::addToScene(ITextureSource *tsrc, scene::ISceneManager *smgr)
 		m_wield_meshnode->setScale(m_prop.visual_size / 2.0f);
 		break;
 	} default:
-		infostream << "GenericCAO::addToScene(): \""
-				<< enum_to_string(es_ObjectVisual, m_prop.visual)
-				<< "\" not supported"<<std::endl;
 		break;
 	}
 
