@@ -215,11 +215,11 @@ void ObjectProperties::deSerialize(std::istream &is)
 	pointable = Pointabilities::deSerializePointabilityType(is);
 
 	int result;
-	std::string visual_string{deSerializeString16(is)};
-	if (string_to_enum(es_ObjectVisual, result, visual_string))
+	std::string visual_str = deSerializeString16(is);
+	if (string_to_enum(es_ObjectVisual, result, visual_str)) {
 		visual = static_cast<ObjectVisual>(result);
-	else {
-		infostream << "ObjectProperties::deSerialize() ObjectVisual: \"" << visual_string
+	} else {
+		infostream << "ObjectProperties::deSerialize() visual \"" << visual_str
 				<< "\" not supported" << std::endl;
 		visual = OBJECTVISUAL_UNKNOWN;
 	}
