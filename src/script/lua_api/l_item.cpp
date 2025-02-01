@@ -327,7 +327,7 @@ int LuaItemStack::l_get_tool_capabilities(lua_State *L)
 	LuaItemStack *o = checkObject<LuaItemStack>(L, 1);
 	ItemStack &item = o->m_stack;
 	const ToolCapabilities &prop =
-		item.getToolCapabilities(getGameDef(L)->idef());
+		item.getToolCapabilities(getGameDef(L)->idef(), "");
 	push_tool_capabilities(L, prop);
 	return 1;
 }

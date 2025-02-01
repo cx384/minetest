@@ -103,16 +103,18 @@ struct ItemStack
 
 	// Get tool digging properties, or those of the hand if not a tool
 	const ToolCapabilities& getToolCapabilities(
-			const IItemDefManager *itemdef) const
+			const IItemDefManager *itemdef, const std::string &hand) const
 	{
 		const ToolCapabilities *item_cap =
 			itemdef->get(name).tool_capabilities;
 
-		if (item_cap == NULL)
-			// Fall back to the hand's tool capabilities
+		// Fall back to the hand's tool capabilities
+		if (item_cap == nullptr)
+			item_cap = itemdef->get(hand).tool_capabilities;
+		if (item_cap == nullptr)
 			item_cap = itemdef->get("").tool_capabilities;
 
-		assert(item_cap != NULL);
+		assert(item_cap != nullptr);
 		return metadata.getToolCapabilities(*item_cap); // Check for override
 	}
 
