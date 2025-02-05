@@ -104,23 +104,25 @@ struct ItemStack
 	// Get tool digging properties, or those of the hand if not a tool
 	// If not hand assumes default hand ""
 	const ToolCapabilities& getToolCapabilities(
-			const IItemDefManager *itemdef, const ItemStack* hand = nullptr) const
+			const IItemDefManager *itemdef, const ItemStack *hand = nullptr) const
 	{
 		const ToolCapabilities *item_cap = itemdef->get(name).tool_capabilities;
 
-		if (item_cap != nullptr) {
+		if (item_cap) {
 			return metadata.getToolCapabilities(*item_cap); // Check for override
-		} else { // Fall back to the hand's tool capabilities
-			if (hand != nullptr) {
-				item_cap = itemdef->get(hand->name).tool_capabilities;
-				assert(item_cap != nullptr);
+		}
+
+		// Fall back to the hand's tool capabilities
+		if (hand) {
+			item_cap = itemdef->get(hand->name).tool_capabilities;
+			if (item_cap) {
 				return hand->metadata.getToolCapabilities(*item_cap);
-			} else {
-				item_cap = itemdef->get("").tool_capabilities;
-				assert(item_cap != nullptr);
-				return *item_cap;
 			}
 		}
+
+		item_cap = itemdef->get("").tool_capabilities;
+		assert(item_cap);
+		return *item_cap;
 	}
 
 	const std::optional<WearBarParams> &getWearBarParams(
