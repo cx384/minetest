@@ -273,8 +273,6 @@ public:
 	bool doPause;
 	bool pausesGame() { return doPause; }
 
-	bool hasModalInteraction() const override { return m_selected_item != nullptr; }
-
 	GUITable* getTable(const std::string &tablename);
 	std::vector<std::string>* getDropDownValues(const std::string &name);
 
@@ -291,6 +289,12 @@ public:
 	static double getImgsize(v2u32 avail_screensize, double screen_dpi, double gui_scaling);
 
 protected:
+	// While holding an item click-outside is not remapped to ESC
+	bool remapClickOutside(const SEvent &event) override
+	{
+		return m_selected_item == nullptr && GUIModalMenu::remapClickOutside(event);
+	}
+
 	v2s32 getBasePos() const
 	{
 			return padding + offset + AbsoluteRect.UpperLeftCorner;

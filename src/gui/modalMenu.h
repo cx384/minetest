@@ -80,6 +80,9 @@ protected:
 	// This is set to true if the menu is currently processing a second-touch event.
 	bool m_second_touch = false;
 
+	// Can be overridden to not ESC formspec on click-outside
+	virtual bool remapClickOutside(const SEvent &event);
+
 private:
 	IMenuManager *m_menumgr;
 	/* If true, remap a click outside the formspec to ESC. This is so that, for
@@ -88,11 +91,7 @@ private:
 	 * the mainmenu to prevent Minetest from closing unexpectedly.
 	 */
 	bool m_remap_click_outside;
-	bool remapClickOutside(const SEvent &event);
 	PointerAction m_last_click_outside{};
-	// If true, click-outside is not remapped to ESC but left
-	// for normal event dispatch (e.g. to drop a held item).
-	virtual bool hasModalInteraction() const { return false; }
 
 	// This might be necessary to expose to the implementation if it
 	// wants to launch other menus
