@@ -90,6 +90,9 @@ private:
 	bool m_remap_click_outside;
 	bool remapClickOutside(const SEvent &event);
 	PointerAction m_last_click_outside{};
+	// If true, click-outside is not remapped to ESC but left
+	// for normal event dispatch (e.g. to drop a held item).
+	virtual bool hasModalInteraction() const { return false; }
 
 	// This might be necessary to expose to the implementation if it
 	// wants to launch other menus

@@ -132,6 +132,9 @@ bool GUIModalMenu::remapClickOutside(const SEvent &event)
 		// Return true since the event was handled, even if it wasn't handled by us.
 		return true;
 
+	if (hasModalInteraction())
+		return false;
+
 	if (event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) {
 		m_last_click_outside = current;
 		return true;

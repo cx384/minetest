@@ -273,6 +273,8 @@ public:
 	bool doPause;
 	bool pausesGame() { return doPause; }
 
+	bool hasModalInteraction() const override { return m_selected_item != nullptr; }
+
 	GUITable* getTable(const std::string &tablename);
 	std::vector<std::string>* getDropDownValues(const std::string &name);
 
