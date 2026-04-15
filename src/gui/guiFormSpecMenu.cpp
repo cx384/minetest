@@ -4426,7 +4426,7 @@ bool GUIFormSpecMenu::OnEvent(const SEvent& event)
 		case BET_DOWN: {
 			// Some mouse button has been pressed
 
-			if (m_held_mouse_button != BET_OTHER)
+			if (m_held_mouse_button != BET_OTHER && m_held_mouse_button != button)
 				break;
 
 			if (button == BET_LEFT || button == BET_RIGHT || button == BET_MIDDLE)
